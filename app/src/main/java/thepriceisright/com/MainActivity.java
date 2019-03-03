@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if(requestCode == REQUEST_IMAGE_CAPTURE /*&& resultCode == RESULT_OK*/) {
             Intent intent = new Intent(this, GuessPriceActivity.class);
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
