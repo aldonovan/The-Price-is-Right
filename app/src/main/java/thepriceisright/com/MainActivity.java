@@ -36,14 +36,14 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView mimageView;
+
     private static final int REQUEST_IMAGE_CAPTURE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mimageView = findViewById(R.id.imageView);
+
     }
 
 

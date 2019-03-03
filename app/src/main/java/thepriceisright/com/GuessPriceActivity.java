@@ -1,11 +1,14 @@
 package thepriceisright.com;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -16,28 +19,34 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GuessPriceActivity extends AppCompatActivity {
-
+    Context context;
+    ImageView foundImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        context = GuessPriceActivity.this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guess_price);
+        ImageView realImage = findViewById(R.id.realImage);
+        foundImage = findViewById(R.id.foundImage);
+
         String base;
         Intent intent = getIntent();
         Bitmap imageBitmap = (Bitmap) intent.getParcelableExtra("Image");
 
-//            mimageView.setImageBitmap(imageBitmap);
+        realImage.setImageBitmap(imageBitmap);
         base = bitmapToBase64(imageBitmap);
         final TextView textView = (TextView) findViewById(R.id.textView2);
         JSONObject jsonBody = new JSONObject();
@@ -68,6 +77,13 @@ public class GuessPriceActivity extends AppCompatActivity {
                             JSONObject price = firstObject.getJSONObject("price");
                             String value = price.getString("value");
                             textView.setText(title);
+
+//                           Log.d("yes", imageUrl);
+//                            URL newurl = new URL(imageUrl);
+//                            Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+//                            foundImage.setImageBitmap(mIcon_val);
+
+                           Picasso.get().load(imageUrl).into(foundImage);
                             // new DownloadImageTask((ImageView) findViewById(R.id.imageView1))
                             //            .execute("http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png");
                             //textView.setText(title);
@@ -112,7 +128,7 @@ protected Map<String, String> getParams()
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer v^1.1#i^1#r^0#f^0#p^1#I^3#t^H4sIAAAAAAAAAOVXe2xTVRhf96gsOIjEKC+xXCAQzb09p6+1N7RJ2YA1gW3SssgWJLe3565X7iv3nLo26rJMXCREVBIFhOggGEEego8Y+YNEyAgivglLjAZM1GBEshAFDCbz3NsyukmAQRES2ybN/c53vvP9vt/vO+ce0OWsfqSnoedCjeOe8t4u0FXucMCxoNpZ9ei4ivLJVWWgyMHR2zWzq7K74vRcLKiKwS9B2NA1jFxZVdEwbxvDTMbUeF3AMuY1QUWYJyIfjy5exHs4wBumTnRRVxhXrD7MeKEgSgACIAVqA1BE1KpdjpnQw4zgEZIQQJ9P9AMBCLV0HOMMimmYCBoJMx4AQyzw0l8C+HiPn4d+LgBrWxlXCzKxrGvUhQNMxE6Xt+eaRbleO1UBY2QSGoSJxKIL4k3RWP38xsRcd1GsSKEOcSKQDB7+VKenkKtFUDLo2stg25uPZ0QRYcy4I/kVhgflo5eTuYn07VKLMISkkMcbFJMSElCwJKVcoJuqQK6dh2WRU6xku/JIIzLJXa+itBrJJ5FICk+NNESs3mX9PZYRFFmSkRlm5s+LLos2NzORhCnjtIwIm0ijZlMWEdu8pJ5FMIBA0AM9bNIfSnoDwVRhoXy0QplHrFSnaynZKhp2NepkHqJZo5G1gUW1oU5NWpMZlYiVUbFfYKiGoNUiNc9ihqQ1i1ek0kK47MfrMzA0mxBTTmYIGoowcsAuEW0bw5BTzMhBW4sF+WRxmEkTYvBud0dHB9fh5XSz3e0BALofX7woLqaRKjDU1+r1vL98/QmsbEOx2pj68yRn0FyyVKs0Aa2diXiDfk/AW6j78LQiI63/MhRhdg/viFJ1iA/CgF/ye5IBCQSlkjRIpKBRt5UGSgo5VhXMlYgYikBVKlKZZVRkyine65doa0qITQVCEusLSRJVbSrAQgkhgFAyKYaC/6c+uVGlx0XdQM26Iou5kui9dFo3U82CSXJxpCjUcKOivypIbIG8/fCsXh8NRCsGpkEEQ+YsbXOirrp1ge5plmmFnfUt4Y4aRkxVM0RIKihWmv3sDu1lV4Un09P+rsJE+csTKafyxzRns8nhp0TORFjPmPQNhWuyTq2EvhJpdBMgpq4oyGyBt0z0XcbvKPfKm8NdunN6tLhpr8PbqW1RkamEVtwhdHeWVVkgdxdq6PdDf7AWQv8t4aqzOU3k/ouzaDTwGnRM0A1TNorXSvfwS26kzP7AbseHoNuxj96TgRvMgjPAdGfF0sqKeydjmSBOFiQOy+0avbuZiFuJcoYgm+VOR9vUvTtWFF2re5eDiUMX6+oKOLbolg2mXhmpguMfrIEh4KVfn4cS2QpmXBmthA9U3n9p4OS7m/o/P8m8+umxo3vKW47snv4yqBlycjiqyiq7HWW7f8kdefb8tM753envDrzklC5easXnJr11Zm/o74kN9QPfrz2w/aPeYzWDbd1R9LVz/KqDf4X6k56FW6rn1Pz8xoz+rc4PnJOXDW4+3L7mRdVzMXLm/G+fnT47SWFP/dB5dMrydRvW7VbqOtfs8vUcmN06Zu2J0Lad4/Ym1o+Z2b5DrNrU907/N8c3P3eqsW3m64dOjL1vF9q386uNE6Zc2LDt4YHOpjnhvsG2SRvUrb1HFrhWf1FzeA/fd/Fc8KfDDS+cY/ftV7OrVq/+8+3swp4fW9r6sltnK29+8m1kwuCspunPPP/+xl1fRn/f7/z1+NmDdVseSkcGNil1084HNmefeGXb9j8au+Z9fGjpa0+/l6fvHz0j5xPwEAAA\n");
+                params.put("Authorization", "Bearer v^1.1#i^1#f^0#I^3#r^0#p^1#t^H4sIAAAAAAAAAOVXfWwURRTvtddigQJ/EECoUBeJpHh7s/ex3G24Sw5Kw4VCD+7a8GmZ25ulY/d2tztzlhOUphLQBIxfIagBSzQhVUMgARLRgETAD6KJaIxgDH4FTTRRMYBFjM7uHeVaCVA4hMS7Sy775s2b9/u935vZAZ0VlbXr56w/X+UYUtrdCTpLHQ5hGKisKJ82oqx0fHkJKHBwdHfe1+nsKvtxBoFp1ZAWImLoGkE1q9KqRiTbGOIypibpkGAiaTCNiERlKR6Z1yB5eCAZpk51WVe5mmhdiAsIQSiK0wXo8SI/RAKzapdiJvQQ55suwxQUfYoCPZ6kKLJxQjIoqhEKNRriPEAIuoCX/RJAlHyC5BN5wS8s4WqakUmwrjEXHnBhO13JnmsW5Hr1VCEhyKQsCBeORurjjZFo3ez5iRnugljhPA9xCmmG9H+apadQTTNUM+jqyxDbW4pnZBkRwrnDuRX6B5Uil5K5gfRzVCchUKAcDHq9MOkPFIXJet1MQ3r1NCwLTrkU21VCGsU0ey1CGRnJh5BM80/zWYhoXY31tyADVaxgZIa42TMjiyOxGBdOmJi0YkRdiVYUM7GMXLGFdS4kiAgEPILHlfQHk14xkMovlIuWZ3nASrN0LYUtzkjNfJ3ORCxrNJAbbwE3zKlRazQjCrUyKvQLXOLQJy6xaporYoa2alZZUZoRUWM/XrsCfbMpNXEyQ1FfhIEDNkUhDhoGTnEDB20p5tWzioS4VkoNye3u6OjgO7y8bq50ewAQ3IvmNcTlVpSGnOVr9brtj689wYVtKDJiMwmWaNZguaxiUmUJaCu5sDfg94jePO/90woPtP7LUIDZ3b8hitYgAIAAkEVZVmQIg6lidEg4L1K3lQdKwqwrDc02RA0VMpnKTGeZNDJxSvL6FY83oCBXSgwqLl9QUZhsU6JLUBACCCWTcjDwf2qU65V6XNYNFNNVLGeLI/iiid1MxaBJs3Gkqsxwvaq/Ikhigbz18KxeHwxEKwZhQaCBeUvbvKyn3Tpkm5plarGzvincEcOIptMZCpMqihZpQ7s9m9kV4WF22t9RmFj9coXEqdw5zdvV5MnDMm8iomdM9obCN1rHVkJvQxrbBKipqyoym4WbLvQdVt9B7pU3hruIB/UgcbNeF26ltmUVMwm13CZ0t7eqGNI7C7Xg9wv+oN8LxJvCNcuuaSL7X5xFg4E3RycUXXfJBvFe6e5/yQ2X2B+hy7EXdDl2s3sycIMpwmRwb0VZk7Ns+HiCKeIxVHiCV2rs7mYivg1lDYjN0grH0updPS0F1+ru5WBc38W6skwYVnDLBtWXR8qFkWOrhCDwsq/os96SwOTLo05hjHP054d7M6quT9wQffTVE3W9r3/Ztfl3UNXn5HCUlzi7HCXNa6H7yI4n/es2jtG+fm1S/dbHdpjKE1+tPRvYNS68aeKhaaM2bjl+YGbD/k8PVh3aMLl6W8vR9za3D3/phYa51Qt+/nVCetLb+IMZTfWHty9bMPebkSX01JR1zcvGPlf7W/bYy2s+OrH67l+OHxu6d8uYPyZob931cfzvysO7zi2uDX5fjS8Owc8u2nk62bp5d23zGYc0NPzMnzvPvbl/2MHSd346WTXBuH/FJz1T3c/3XPisJ7at6Yc3wAo+dKT78d41q88s79201bzn6WUXdiwd2/6+z+NMNV1sfzAc2fPuerrW09Z++sUHRh9dse+7V0adP3fgkeBJNH7qvilP7an469SHW1dTvFE52D5i+7dnv3DmyvcPq8erIvAQAAA=");
                 params.put("Content-Type", "application/json");
                 params.put("X-EBAY-C-ENDUSERCTX", "affiliateCampaignId=<ePNCampaignId>,affiliateReferenceId=<referenceId>");
                 return params;
