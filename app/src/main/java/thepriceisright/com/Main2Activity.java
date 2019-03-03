@@ -52,27 +52,27 @@ public class Main2Activity extends AppCompatActivity {
 
                             ImageView curr = topleft;
                             if (count == 10) {
-                                count -= 9;
+                                count = 1;
                             }
 
                             switch(count) {
-                                case 9 : curr = topleft;
+                                case 1 : curr = topleft;
                                     break;
-                                case 8: curr = top;
+                                case 2: curr = top;
                                     break;
-                                case 7: curr = topright;
+                                case 3: curr = topright;
                                     break;
-                                case 6: curr = left;
+                                case 4: curr = left;
                                     break;
                                 case 5: curr = center;
                                     break;
-                                case 4: curr = right;
+                                case 6: curr = right;
                                     break;
-                                case 3: curr = bottomleft;
+                                case 7: curr = bottomleft;
                                     break;
-                                case 2: curr = bottom;
+                                case 8: curr = bottom;
                                     break;
-                                case 1: curr = bottomright;
+                                case 9: curr = bottomright;
                                     break;
                             }
 

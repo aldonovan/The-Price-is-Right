@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,10 +58,14 @@ public class MainActivity extends AppCompatActivity {
         buttonPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(MainActivity.this, GuessPriceActivity.class);
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Yet to be implemented (but easy)",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                /*Intent intent2 = new Intent(MainActivity.this, GuessPriceActivity.class);
                 Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loadingses);
                 intent2.putExtra("Image", imageBitmap);
-                startActivity(intent2);
+                startActivity(intent2);*/
             }
         });
         // Write a message to the database
