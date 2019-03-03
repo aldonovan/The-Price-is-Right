@@ -14,6 +14,7 @@ First, we developed a mobile application using Android Studio, utilizing many di
 For example, we wrote a short function called bitmapToBase64 that allowed us fo
 
 ## Accomplishments that we're proud of
+We were able to implement the image recognition and product matching with a degree of accuracy that ...?
 
 ## What we learned
 
