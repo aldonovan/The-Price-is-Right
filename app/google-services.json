@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "373257468120",
+    "firebase_url": "https://thepriceisright-3a501.firebaseio.com",
+    "project_id": "thepriceisright-3a501",
+    "storage_bucket": "thepriceisright-3a501.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373257468120:android:5cc9527d8e9111c3",
+        "android_client_info": {
+          "package_name": "thepriceisright.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373257468120-cto2ob2s71vst9ro0tro2736l6t2149q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "thepriceisright.com",
+            "certificate_hash": "4a2f8328fcd1c270497f6b69ec831b095c85631e"
+          }
+        },
+        {
+          "client_id": "373257468120-4tasikekv2cp2ghek7t32h6t2omrtcrf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7_eLlpfCBC9rLbcHGU5KewjXF9cj6v-Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373257468120-4tasikekv2cp2ghek7t32h6t2omrtcrf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
