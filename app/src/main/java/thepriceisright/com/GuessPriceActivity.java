@@ -193,7 +193,7 @@ protected Map<String, String> getParams()
 
         // Set only target params:
         loparams.height = 0;
-        loparams.weight = 2;
+        loparams.weight = 3;
         textView.setLayoutParams(loparams);
 
         String newText = "Actual price: $" + value + "\n" + "Your guess: $" + str + "\n"+

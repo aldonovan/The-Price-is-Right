@@ -46,7 +46,8 @@
         android:paddingRight="15dp"
         android:text="Loading..."
         android:textAppearance="@android:style/TextAppearance.Large"
-        android:textColor="@color/colorPrimaryDark" />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/magicTrick"
