@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "373257468120-j6l52iu4hcd3poq1p500pdpajo92m4ks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "thepriceisright.com",
+            "certificate_hash": "ae24cf74c4584173706da401f5a1ea1a77397ce0"
+          }
+        },
+        {
           "client_id": "373257468120-4tasikekv2cp2ghek7t32h6t2omrtcrf.apps.googleusercontent.com",
           "client_type": 3
         }

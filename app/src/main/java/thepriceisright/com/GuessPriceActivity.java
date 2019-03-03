@@ -26,6 +26,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -48,6 +51,7 @@ public class GuessPriceActivity extends AppCompatActivity {
     String value;
     String imageUrl;
     String itemWebUrl;
+    String base;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,6 @@ public class GuessPriceActivity extends AppCompatActivity {
         realImage = findViewById(R.id.realImage);
         foundImage = findViewById(R.id.foundImage);
 
-        String base;
         Intent intent = getIntent();
         Bitmap imageBitmap = (Bitmap) intent.getParcelableExtra("Image");
 
@@ -143,7 +146,7 @@ protected Map<String, String> getParams()
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer v^1.1#i^1#p^3#r^0#I^3#f^0#t^H4sIAAAAAAAAAOVYW2wUVRju9iZQLhGlknJbBkHQzO45M7vT2YFuWNoFNvSydLcoGCxzOdOOncsyM9t2MUBTUgz4gOgLQWwqSBAwQkkw4IOPJpIYIwSIGAKGEEp8soji3TPbbtlWBNrysImbSTZzzn/5/u98/5kzAzqKJ764c/XOX6a4nsrv6QAd+S4XLAETi4temlqQX1aUB7IMXD0dz3cUdhb0LbN4TU1w9chKGLqF3O2aqltcerCCSJo6Z/CWYnE6ryGLs0UuFqqp5igP4BKmYRuioRLuSFUFAdmAQJdDAZT7gUQjBo/qmZhxA88D2keJNCWW0xIj+gU8b1lJFNEtm9ftCoICMEACGl9xCDnKz9HAAxl6A+Feh0xLMXRs4gFEMA2XS/uaWVgfDpW3LGTaOAgRjIRWxupCkapwbXyZNytWcJCHmM3bSWv4XaUhIfc6Xk2ih6ex0tZcLCmKyLIIb3Agw/CgXCgDZgzw01SLoiQBUWaogE+ACPJPhMqVhqnx9sNxOCOKRMppUw7ptmKnHsUoZkN4HYn24F0tDhGpcjt/a5O8qsgKMiuI8IrQ+oZYuJ5wx6JR02hVJCSlRQXKGQB9NIXRQk0XWsX2LTAwmGUg1CDHI9JUGrqkOIxZ7lrDXoEwZDSSGJhFDDaq0+vMkGw7cLLt6CECwQZnRQeWMGk3686iIg2z4E7fPpr+jB7uK+BJKQJChmcBQkKgHAkizT5IEU6vj1YVQWdhQtGo18GCBD5FarzZguyEyouIFDG9SQ2ZisTRfpmiWRmREhOQSV9AlknBLzEklBFycAligP3fiMO2TUVI2mhIICMn0hVWEA6hnMLLnG20ID2eSiBipGV60xlURbtVQTTbdoLzetva2jxttMcwm7wUAND7Sk11TGxGGt4KMrbKo41JJa0PEWEvS+FsDKCCaMfyw8n1JiJYH15ZH46tbozXrQnXZqQ7DFlw5Oh/VBoTjQSKGqoipnKrRNqUorxpp2JIVfHAuIq0nCJzozyn1zMlOjEsHIRPKB5HcR7R0LwGj7csZ6gxjdr9OEZeC5PkGdgAcGSPiXjJ0NXUWJxH4aPorbiFDDM1loRDzqPw4UXRSOr2WNINuo7CQ06qsqKqzi4xloRZ7qOBqfNqylZEayjluIQfSiQimpa0eUFFESk3OmCowVk/xdDjLi/HqoqbitWsIJuMNyOn16Omgp/H0foqEkEGAZaCFH7+4gM5w0rjqr2mScmx0iHDQuBjWYYFgBlXbVWoNdfWNSCwDKJZQPokQSR9skyRAR6JJAslAEQEWUoeX82VqoK3itw7aqw2LBuNT6qV+ECcW0U5/ZhpRx/l40mWF/Dh2M8DUmAFipSA77FXc2Cg0P+gw+W/Xiq8w1/pg3npH+x0nQadrt58lwt4wUK4AMwvLmgoLJhcZik28uCDqMdSmnT8pmoiTwtKJXjFzC92vTr75NHGrI8IPRvBzKHPCBMLYEnWNwUw+/5MEZz23BQYADSgIaT8NNgAFtyfLYSlhc+yX+x47Ycru7lFzNWb3ZcOlgabSr8CU4aMXK6ivMJOV97crYs2td0Jlcw+8ZF29fafv4af/n5m/6HK7WvmRDZWLl0i9C/+vevbe8f6rfxPT14s3dbU3a38eLft9v4ZaFt963H+zvqp373zyYcXj8z5umrCtLq+WZvCW1v+uHCq9/o+YaayO+/cgcj043tmFG+50PHGX30vnF5/qeTtqxfi1fKX228803/5myPE3uVTGyedWnji4G+z9hxZtaNs/q2uG0vnvXXZM+nd0vN8k3bOtbFwenLXe2vFey//9OaEns/2g/PHa86uPbzjbu+1K2f7zny+3H2md8+SrcfmzFt8rPpm+G/5VrnW0H297Oi+cx/fPrSoa/O1M3MPzDo8eUlvl7hq7ubmn8v2FjW+332g4VD9Bz0Dy/cPi/jsj94RAAA=");
+                params.put("Authorization", "Bearer v^1.1#i^1#f^0#p^1#r^0#I^3#t^H4sIAAAAAAAAAOVXa2wUVRTu9hmEFg1PCz+WAQ3R7OydnX2O3dWFFlmg7cIuDY8qzONue+3szDj3Lt01Bjb9gTGogAkmkhAbfqBIAjSoUBMU1BBSEhN/mEgUE4NRiuFhMGpCSLwzu5RtJUBhERI3k2zm3HPPPef7vnPvXJCvnfDU5sWb/6p31FX250G+0uHgJoIJtTVPN1RVNtZUgBIHR39+Xr66r+pcExbTqiGsgNjQNQyd2bSqYcE2hpmMqQm6iBEWNDENsUBkIRFtXSZ4WCAYpk50WVcZZ6w5zAR5TuKVEOQCXiD5PSFq1a7HTOphRvRJgZQkKiLwh1Iyp9BxjDMwpmEiaiTMeAAXcgGePkkuIHAegedZvx+sYZwd0MRI16gLC5iIna5gzzVLcr11qiLG0CQ0CBOJRRcl2qOx5pa2ZJO7JFakiEOCiCSDR78t1BXo7BDVDLz1Mtj2FhIZWYYYM+5IYYXRQYXo9WTuIn0b6oDPEwrKCoRQoVim+LJAuUg30yK5dR6WBSmulO0qQI0gkrsdohQN6SUok+JbGw0Ra3Zaf8szoopSCJphpmVBdHU0HmciSRPhbgSJK9kN4yaSoSu+otkFOT8EQQ/ncUm+kMT7g0pxoUK0IsxjVlqoawqyQMPONp0sgDRrOBYbUIINdWrX2s1oilgZlfqFrmPo49dYpBZYzJBuzeIVpikQTvv19gyMzCbERFKGwJEIYwdsiGjbGAZSmLGDthaL8sniMNNNiCG43b29vWwvz+pml9sDAOde1bosIXfDtMhQX6vXC/7o9hNcyC5FhnQmRgLJGTSXLNUqTUDrYiJ80Ofx80XcR6cVGWv9l6GkZvfojihXh/hTkgK9iqgAa8sJgHJ0SKQoUreVB5TEnCstmj2QGKpIZSpTnWXS0ESKwPtSHj6Ygi6rO11e2qFUtorfxaUgBBBKkhwK/p8a5U6lnpB1A8Z1Fcm5sgi+fGI3lbhoklwCqio13Knqb1oktoq87+VZvT6uEq0YmAYRDcRa2mZlPe3WRbqpWaZ1dtb3VHfUMGLpdIaIkgpj5dnQHtBmdtPyED3uH6qaKH8FIpFSOKdZm00Wb5BZE2I9Y9JPFLbdOraSeg/U6CZATF1VodnB3TPRDxm/49wr767u8h3U46yb9rrnvmpbVhGV0LoHU90DZhWJ5OGqmvP5OD/Pc75743ShzWky9x+cReMqb7GOCbxjysbxXekefcuNVNg/rs/xMehzDNCLMnCDJ7i5YE5t1crqqkmNGBHIIjHFYtSl0cubCdkemDNEZFbWOtbOPrh3Xcm9uv8FMHPkZj2hiptYcs0Gs2+M1HCTZ9RzIcADngtwHp5fA+beGK3mpldPnTS89WdmzuB3+qzslBmXX/djR9d5UD/i5HDUVFT3OSre37fi5KozG5dn1+5Z+VgucRTtVmfN7ezZce3ci6fS3s4vt+x0vdn2Q+2Zyb9ED79xsXdwpbSxf2l2ipqviytN0f3ejQ2fHd1xOrD8nVnT/J88ev6Qd9/6llj90ab3AnsPb2+aFv4CJHuG+W0TDyhLr7687cLFrCv9x+8Nl4+8Ou/U8bfmDx/ctKdv9Qf5Ld4D2535HWev7Frw05O7apY8frzhXe17+c+tGxqPufe36AOLG692Pvv3t5HTFUNH+q7VHhQGLm3y5pzbp8ElA1d+/Sb6486PXpv/4eDQiaXZC0Otg+5HWlZ93tu5+5VDz9SdfW766o71X22THCefXztp5vDb+tCl+b+d/PTq1GO5E18X6PsH+TsH5fEQAAA=\n");
                 params.put("Content-Type", "application/json");
                 params.put("X-EBAY-C-ENDUSERCTX", "affiliateCampaignId=<ePNCampaignId>,affiliateReferenceId=<referenceId>");
                 return params;
@@ -239,5 +242,9 @@ protected Map<String, String> getParams()
 //        tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 //
 //        linearLayout.addView(tv);
-    }
+        FirebaseApp.initializeApp(GuessPriceActivity.this);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("Image").push().setValue(base);
+        myRef.child("Price").push().setValue(value);    }
 }
