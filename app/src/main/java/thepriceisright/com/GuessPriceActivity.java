@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -37,6 +39,8 @@ public class GuessPriceActivity extends AppCompatActivity {
     ImageView realImage;
     TextView textView;
     String title;
+    String value;
+    String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +81,9 @@ public class GuessPriceActivity extends AppCompatActivity {
                             title = firstObject.getString("title");
                             String itemHref = firstObject.getString("itemHref");
                             JSONObject image = firstObject.getJSONObject("image");
-                            String imageUrl = image.getString("imageUrl");
+                            imageUrl = image.getString("imageUrl");
                             JSONObject price = firstObject.getJSONObject("price");
-                            String value = price.getString("value");
+                            value = price.getString("value");
                             textView.setText(title);
 
 //                           Log.d("yes", imageUrl);
@@ -158,6 +162,51 @@ protected Map<String, String> getParams()
     }
 
     public void submitGuess(View view) {
-        textView.setText(title + "\nActual price: ");
+
+        EditText editText2 = (EditText) findViewById(R.id.editText2);
+        String guessString = editText2.getText().toString();
+        if(guessString.length() == 0) {
+            return;
+        }
+        textView.setText("Actual price: $" + value + "\n" + "Your guess was ");
+
+        TextView textView4 = (TextView) findViewById(R.id.textView4);
+        TextView textView6 = (TextView) findViewById(R.id.textView6);
+        TextView magicTrick = (TextView) findViewById(R.id.magicTrick);
+
+        magicTrick.setText("Are you interested in buying this? \n" + imageUrl);
+        magicTrick.setVisibility(View.VISIBLE);
+
+        double guess = Double.parseDouble(guessString);
+        double value2 = Double.parseDouble(value);
+        double difference = guess - value2;
+        if(value2 != 0) {
+            double ratio = difference / value2;
+            if(difference == 0) {
+                textView.append("absolutely correct");
+            }
+            if (difference < 0) {
+                textView.append(Math.round(-100 * ratio) + "% below the actual price.");
+            } else {
+                textView.append(Math.round(100 * ratio) + "% above the actual price.");
+            }
+        }
+
+
+
+        textView4.setVisibility(View.GONE);
+        textView6.setVisibility(View.GONE);
+        editText2.setVisibility(View.GONE);
+
+//        TextView tv = new TextView(this);
+//        tv.setText("Actual price: ");
+
+//        LinearLayout linearLayout =  (LinearLayout) findViewById(R.id.linear_layout_id);
+//
+//        TextView tv = new TextView(this);
+//        tv.setText("hallo hallo");
+//        tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//
+//        linearLayout.addView(tv);
     }
 }
