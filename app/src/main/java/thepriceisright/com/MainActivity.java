@@ -52,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Write a message to the database
 //        FirebaseApp.initializeApp(this);
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("message");
+//
         // Read from the database
 //        myRef.addValueEventListener(new ValueEventListener() {
 //            @Override

@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +33,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +47,7 @@ public class GuessPriceActivity extends AppCompatActivity {
     String title;
     String value;
     String imageUrl;
+    String itemWebUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,7 @@ public class GuessPriceActivity extends AppCompatActivity {
                             JSONArray itemSummaries = json.getJSONArray("itemSummaries");
                             JSONObject firstObject = itemSummaries.getJSONObject(0);
                             title = firstObject.getString("title");
-                            String itemHref = firstObject.getString("itemHref");
+                            itemWebUrl = firstObject.getString("itemWebUrl");
                             JSONObject image = firstObject.getJSONObject("image");
                             imageUrl = image.getString("imageUrl");
                             JSONObject price = firstObject.getJSONObject("price");
@@ -163,21 +170,36 @@ protected Map<String, String> getParams()
 
     public void submitGuess(View view) {
 
+//        t2.setMovementMethod(LinkMovementMethod.getInstance());
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         String guessString = editText2.getText().toString();
         if(guessString.length() == 0) {
             return;
         }
-        textView.setText("Actual price: $" + value + "\n" + "Your guess was ");
+        double guess = Double.parseDouble(guessString);
+        String str = String.format("%4.2f", guess);
+
+
+        // Get params:
+        LinearLayout.LayoutParams loparams = (LinearLayout.LayoutParams) textView.getLayoutParams();
+
+        // Set only target params:
+        loparams.height = 0;
+        loparams.weight = 2;
+        textView.setLayoutParams(loparams);
+
+        String newText = "Actual price: $" + value + "\n" + "Your guess: $" + str + "\n"+
+                "Your guess was ";
+        textView.setText(newText);
+        textView.setGravity(View.TEXT_ALIGNMENT_CENTER);
 
         TextView textView4 = (TextView) findViewById(R.id.textView4);
         TextView textView6 = (TextView) findViewById(R.id.textView6);
         TextView magicTrick = (TextView) findViewById(R.id.magicTrick);
 
-        magicTrick.setText("Are you interested in buying this? \n" + imageUrl);
-        magicTrick.setVisibility(View.VISIBLE);
 
-        double guess = Double.parseDouble(guessString);
+
+
         double value2 = Double.parseDouble(value);
         double difference = guess - value2;
         if(value2 != 0) {
@@ -191,12 +213,21 @@ protected Map<String, String> getParams()
                 textView.append(Math.round(100 * ratio) + "% above the actual price.");
             }
         }
-
+        textView.append("\nAre you interested in buying this?");
+        magicTrick.setClickable(true);
+        magicTrick.setMovementMethod(LinkMovementMethod.getInstance());
+        String text = "<a href='"+itemWebUrl+"'>"+title+"</a>";
+        magicTrick.setText(Html.fromHtml(text));
+        magicTrick.setTextColor(Color.rgb(6, 69, 173));
+        magicTrick.setPadding(10, 0, 0, 0);
+        magicTrick.setVisibility(View.VISIBLE);
 
 
         textView4.setVisibility(View.GONE);
         textView6.setVisibility(View.GONE);
         editText2.setVisibility(View.GONE);
+        Button submitButton = (Button) findViewById(R.id.button3);
+        submitButton.setVisibility(View.GONE);
 
 //        TextView tv = new TextView(this);
 //        tv.setText("Actual price: ");
