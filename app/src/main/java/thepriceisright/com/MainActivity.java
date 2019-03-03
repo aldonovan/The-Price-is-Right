@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void takePicutre(View view) {
+    public void takePicture(View view) {
         Intent imageTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(imageTakeIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(imageTakeIntent, 101);
