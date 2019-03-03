@@ -18,3 +18,4 @@ For example, we wrote a short function called bitmapToBase64 that allowed us fo
 ## What we learned
 
 ## What's next for The Price is Right
+Next steps include incentivizing the app for both buyers and sellers. For the users, we would give out "tokens" for each correct guess (within some percentage range), and the tokens could be used in a wheel of fortune or raffle to win a percentage off the purchase price. For the sellers on eBay, they would get free advertising space in exchange for offering a discount to the winners in the previous instance. There will also be a "Game of the Day," where a correct guess may correspond to, say, five tokens, and leaderboards to compare your scores and correct guess streaks to other users. 
