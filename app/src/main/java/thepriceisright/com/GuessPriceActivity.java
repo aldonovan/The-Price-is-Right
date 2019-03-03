@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -172,7 +173,11 @@ protected Map<String, String> getParams()
     }
 
     public void submitGuess(View view) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Congratulations, here are 10 tokens!",
+                Toast.LENGTH_SHORT);
 
+        toast.show();
 //        t2.setMovementMethod(LinkMovementMethod.getInstance());
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         String guessString = editText2.getText().toString();
@@ -245,6 +250,5 @@ protected Map<String, String> getParams()
         FirebaseApp.initializeApp(GuessPriceActivity.this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        myRef.child("Image").push().setValue(base);
-        myRef.child("Price").push().setValue(value);    }
+        myRef.child("Image").push().setValue(base);  }
 }

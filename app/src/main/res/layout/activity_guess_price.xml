@@ -111,10 +111,10 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="3dp"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimaryDark"
             android:onClick="returnHome"
             android:text="RESTART"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
         <Button
@@ -124,10 +124,10 @@
             android:layout_marginLeft="3dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimaryDark"
             android:onClick="submitGuess"
             android:text="SUBMIT"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
     </LinearLayout>
